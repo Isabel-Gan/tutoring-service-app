@@ -5,7 +5,6 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tutoring_service_app.R;
-import com.example.tutoring_service_app.UserLanding;
 import com.example.tutoring_service_app.ui.login.LoginViewModel;
 import com.example.tutoring_service_app.ui.login.LoginViewModelFactory;
 
@@ -123,11 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
-
-        // successfully logged in => go to user landing page
-        Intent intent = new Intent(this, UserLanding.class);
-        startActivity(intent);
-
+        // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 

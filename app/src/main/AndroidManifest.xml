@@ -10,17 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".UserLanding"
-            android:label="@string/title_activity_user_landing"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_signup"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
