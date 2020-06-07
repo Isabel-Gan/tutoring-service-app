@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         tv.setText(stringFromJNI()); */
     }
 
-    public void go_login(View view) {
+    public void goLogin(View view) {
         // starts the LoginActivity
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
