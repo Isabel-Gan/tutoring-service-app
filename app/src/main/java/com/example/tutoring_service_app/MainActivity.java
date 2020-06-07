@@ -38,4 +38,11 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
+
+    /** Called when the user taps the Create Account button */
+    public void clickCreate(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
 }
