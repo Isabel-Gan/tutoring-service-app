@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">tutoring-service-app</string>
     <string name="title_activity_login">Sign In</string>
+    <string name="title_activity_signup">Sign Up</string>
+    <string name="title_activity_main">Welcome!</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
