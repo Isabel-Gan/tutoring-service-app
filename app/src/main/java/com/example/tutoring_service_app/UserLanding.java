@@ -43,16 +43,6 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
         actionbar.setHomeAsUpIndicator(R.drawable.ic_action_menu);
         actionbar.setDisplayHomeAsUpEnabled(true);
 
-        // floating action button
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         // setup navigation drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setNavigationViewListener();
