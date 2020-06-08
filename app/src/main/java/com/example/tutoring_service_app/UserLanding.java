@@ -1,23 +1,16 @@
 package com.example.tutoring_service_app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -62,16 +55,16 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
         // handles navigation view item clicks
         switch (item.getItemId()) {
 
-            case R.id.nav_learn: {
-                // open learn activity
-                Toast toast = Toast.makeText(getApplicationContext(), "learn!!!", Toast.LENGTH_SHORT);
-                toast.show();
+            case R.id.nav_educate: {
+                openEducate(null);
                 break;
             }
-            case R.id.nav_teach: {
-                // open teach activity
-                Toast toast = Toast.makeText(getApplicationContext(), "teach!!!", Toast.LENGTH_SHORT);
-                toast.show();
+            case R.id.nav_learn: {
+                openLearn(null);
+                break;
+            }
+            case R.id.nav_motivate: {
+                openMotivate(null);
                 break;
             }
         }
@@ -93,4 +86,23 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
         }
         return true;
     }
+
+    public void openEducate(View view) {
+        // open educate activity
+        Toast toast = Toast.makeText(getApplicationContext(), "educate!!!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void openLearn(View view) {
+        // open learn activity
+        Toast toast = Toast.makeText(getApplicationContext(), "learn!!!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void openMotivate(View view) {
+        // open motivate activity
+        Toast toast = Toast.makeText(getApplicationContext(), "motivate!!!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
 }
