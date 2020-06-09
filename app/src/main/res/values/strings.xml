@@ -25,4 +25,6 @@
     <string name="user_landing_question">What do you want to do today?</string>
     <string name="menu_motivate">Motivate</string>
     <string name="feed">Feed</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">Login</string>
 </resources>
