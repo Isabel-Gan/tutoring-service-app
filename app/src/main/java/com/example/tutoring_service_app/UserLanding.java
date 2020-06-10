@@ -67,6 +67,10 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
                 openMotivate(null);
                 break;
             }
+            case R.id.nav_help: {
+                openHelp(null);
+                break;
+            }
         }
 
         // close the navigation drawer
@@ -102,6 +106,12 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
     public void openMotivate(View view) {
         // open motivate activity
         Toast toast = Toast.makeText(getApplicationContext(), "motivate!!!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void openHelp(View view) {
+        // open help activity
+        Toast toast = Toast.makeText(getApplicationContext(), "help!!!", Toast.LENGTH_SHORT);
         toast.show();
     }
 
