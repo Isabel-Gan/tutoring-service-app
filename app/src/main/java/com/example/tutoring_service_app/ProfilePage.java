@@ -130,8 +130,8 @@ public class ProfilePage extends AppCompatActivity implements NavigationView.OnN
 
     public void openHelp() {
         // open help activity
-        Toast toast = Toast.makeText(getApplicationContext(), "help!!!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, HelpPage.class);
+        startActivity(intent);
     }
 
 }
