@@ -7,7 +7,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_action_home"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_educate"
@@ -15,15 +15,15 @@
             android:title="@string/menu_educate" />
         <item
             android:id="@+id/nav_learn"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_action_school"
             android:title="@string/menu_learn" />
         <item
             android:id="@+id/nav_motivate"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_action_people"
             android:title="@string/menu_motivate" />
         <item
             android:id="@+id/nav_help"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_action_help_outline"
             android:title="@string/menu_help" />
     </group>
 
@@ -35,27 +35,27 @@
             <item
                 android:id="@+id/nav_comm0"
                 android:title="@string/placeholder"
-                android:icon="@drawable/ic_menu_camera" />
+                android:icon="@drawable/ic_action_people" />
             <item
                 android:id="@+id/nav_comm1"
                 android:title="@string/placeholder"
-                android:icon="@drawable/ic_menu_camera" />
+                android:icon="@drawable/ic_action_people" />
             <item
                 android:id="@+id/nav_comm2"
                 android:title="@string/placeholder"
-                android:icon="@drawable/ic_menu_camera" />
+                android:icon="@drawable/ic_action_people" />
             <item
                 android:id="@+id/nav_comm3"
                 android:title="@string/placeholder"
-                android:icon="@drawable/ic_menu_camera" />
+                android:icon="@drawable/ic_action_people"/>
             <item
                 android:id="@+id/nav_comm4"
                 android:title="@string/placeholder"
-                android:icon="@drawable/ic_menu_camera" />
+                android:icon="@drawable/ic_action_people" />
             <item
                 android:id="@+id/nav_new_comm"
                 android:title="@string/create_new_community"
-                android:icon="@drawable/ic_menu_camera" />
+                android:icon="@drawable/ic_action_group_add" />
         </menu>
     </item>
 
