@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
@@ -26,12 +27,37 @@
             android:title="@string/menu_help" />
     </group>
 
-    <item android:title="My Communities">
+    <item
+        android:id="@+id/nav_communities"
+        android:title="@string/my_communities"
+        android:visible="false">
         <menu>
             <item
-                android:id="@+id/nav_new_community"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="@string/menu_create_new_community" />
+                android:id="@+id/nav_comm0"
+                android:title="@string/placeholder"
+                android:icon="@drawable/ic_menu_camera" />
+            <item
+                android:id="@+id/nav_comm1"
+                android:title="@string/placeholder"
+                android:icon="@drawable/ic_menu_camera" />
+            <item
+                android:id="@+id/nav_comm2"
+                android:title="@string/placeholder"
+                android:icon="@drawable/ic_menu_camera" />
+            <item
+                android:id="@+id/nav_comm3"
+                android:title="@string/placeholder"
+                android:icon="@drawable/ic_menu_camera" />
+            <item
+                android:id="@+id/nav_comm4"
+                android:title="@string/placeholder"
+                android:icon="@drawable/ic_menu_camera" />
+            <item
+                android:id="@+id/nav_new_comm"
+                android:title="@string/create_new_community"
+                android:icon="@drawable/ic_menu_camera" />
         </menu>
     </item>
+
+
 </menu>

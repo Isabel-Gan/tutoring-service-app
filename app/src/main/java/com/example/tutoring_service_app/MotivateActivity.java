@@ -2,23 +2,16 @@ package com.example.tutoring_service_app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -30,6 +23,21 @@ public class MotivateActivity extends AppCompatActivity implements NavigationVie
     private void setNavigationViewListener() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void addToNavigationDrawer() {
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+
+        Menu menu = navView.getMenu();
+        menu.findItem(R.id.nav_communities).setVisible(true);
+
+        // TODO: replace with actual community names
+        menu.findItem(R.id.nav_comm0).setTitle("community 1");
+        menu.findItem(R.id.nav_comm1).setTitle("community 2");
+        menu.findItem(R.id.nav_comm2).setTitle("community 3");
+        menu.findItem(R.id.nav_comm3).setTitle("community 4");
+        menu.findItem(R.id.nav_comm4).setTitle("community 5");
+
     }
 
     @Override
@@ -47,6 +55,9 @@ public class MotivateActivity extends AppCompatActivity implements NavigationVie
         // setup navigation drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setNavigationViewListener();
+
+        // add items to the navigation drawer
+        addToNavigationDrawer();
     }
 
     @Override
@@ -89,11 +100,6 @@ public class MotivateActivity extends AppCompatActivity implements NavigationVie
             }
             case R.id.nav_help: {
                 openHelp();
-                break;
-            }
-            case R.id.nav_new_community: {
-                Toast toast = Toast.makeText(getApplicationContext(), "make new community!!!", Toast.LENGTH_SHORT);
-                toast.show();
                 break;
             }
         }
