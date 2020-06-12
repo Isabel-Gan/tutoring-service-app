@@ -9,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LoginActivity"></activity>
         <activity
             android:name=".HelpPage"
             android:label="@string/title_activity_help_page"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".UserLanding"></activity>
+            android:parentActivityName=".UserLanding"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProfilePage"
             android:label="@string/title_activity_profile_page"
@@ -28,10 +29,6 @@
             android:label="@string/title_activity_signup"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
@@ -41,5 +38,9 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
