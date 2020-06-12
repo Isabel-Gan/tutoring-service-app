@@ -119,8 +119,8 @@ public class HelpPage extends AppCompatActivity implements NavigationView.OnNavi
 
     public void openMotivate() {
         // open motivate activity
-        Toast toast = Toast.makeText(getApplicationContext(), "motivate!!!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, MotivateActivity.class);
+        startActivity(intent);
     }
 
     public void openProfileHelp(View view) {

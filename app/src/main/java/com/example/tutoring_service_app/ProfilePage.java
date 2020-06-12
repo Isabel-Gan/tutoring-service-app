@@ -104,6 +104,7 @@ public class ProfilePage extends AppCompatActivity implements NavigationView.OnN
     }
 
     // methods for opening separate activities
+
     public void openHome() {
         // open user landing activity
         Intent intent = new Intent(this, UserLanding.class);
@@ -124,8 +125,8 @@ public class ProfilePage extends AppCompatActivity implements NavigationView.OnN
 
     public void openMotivate() {
         // open motivate activity
-        Toast toast = Toast.makeText(getApplicationContext(), "motivate!!!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, MotivateActivity.class);
+        startActivity(intent);
     }
 
     public void openHelp() {

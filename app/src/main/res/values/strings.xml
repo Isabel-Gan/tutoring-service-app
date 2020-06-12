@@ -34,4 +34,6 @@
 
     <string name="home_second">Home Second</string>
     <string name="title_activity_help_page">Help</string>
+    <string name="title_activity_motivate">Motivate</string>
+    <string name="menu_create_new_community">Create New Community</string>
 </resources>

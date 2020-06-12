@@ -10,10 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".HelpPage"
-            android:label="@string/title_activity_help_page"
+            android:name=".MotivateActivity"
+            android:label="@string/title_activity_motivate"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".UserLanding"></activity>
+        <activity
+            android:name=".HelpPage"
+            android:label="@string/title_activity_help_page"
+            android:parentActivityName=".UserLanding"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProfilePage"
             android:label="@string/title_activity_profile_page"
