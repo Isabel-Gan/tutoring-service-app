@@ -60,8 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.w("Connection","open");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM [dbo].[account_details_table] WHERE [username] = \'"+ usr + "\' AND [password] = \'" + psw + "\'");
-            //rs.last();
-            //Log.i("Android", "Got past rs.last()");
+
             while(rs.next()){
                 conn.close();
                 return true;
