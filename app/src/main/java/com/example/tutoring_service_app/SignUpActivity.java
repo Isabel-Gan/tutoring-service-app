@@ -194,7 +194,9 @@ public class SignUpActivity extends AppCompatActivity {
                     "VALUES (\'" + username + "\', \'" + password + "\', \'" + fname + "\', \'" +
                     lname + "\', \'" + minitial + "\', \'" + address + "\', \'" + city + "\', \'" +
                     country + "\', \'" + email + "\', \'" + bdate + "\')");
-
+            num = stmt.executeUpdate("INSERT INTO [dbo].[profile_table] " +
+                    "(username) " +
+                    "VALUES (\'" + username + "\'");
             conn2.close();
 
             Intent intent = new Intent(this, UserLanding.class);
