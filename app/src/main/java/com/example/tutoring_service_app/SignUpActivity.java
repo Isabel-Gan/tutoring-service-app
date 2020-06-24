@@ -15,10 +15,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -28,8 +26,10 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
     }
     public void onSignUp(View view){
-        EditText firstname = (EditText) findViewById(R.id.firstNameInput);
-        String fname = firstname.getText().toString();
+
+        // first name
+        EditText firstName = (EditText) findViewById(R.id.firstNameInput);
+        String fname = firstName.getText().toString();
         if(fname.equals(""))
         {
             Context context = getApplicationContext();
@@ -39,8 +39,10 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
-        EditText lastname = (EditText) findViewById(R.id.lastNameInput);
-        String lname = lastname.getText().toString();
+
+        // last name
+        EditText lastName = (EditText) findViewById(R.id.lastNameInput);
+        String lname = lastName.getText().toString();
         if(lname.equals(""))
         {
             Context context = getApplicationContext();
@@ -50,9 +52,12 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
-        EditText middleinitial = (EditText) findViewById(R.id.MIInput);
-        String minitial = middleinitial.getText().toString();
 
+        // middle initial
+        EditText middleInitial = (EditText) findViewById(R.id.MIInput);
+        String mInitial = middleInitial.getText().toString();
+
+        // birthday
         EditText birthday = (EditText) findViewById(R.id.birthdayInput);
         String bdate = birthday.getText().toString();
         if(bdate.equals(""))
@@ -64,6 +69,8 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
+        // address
         EditText addressInput = (EditText) findViewById(R.id.addressInput);
         String address = addressInput.getText().toString();
         if(address.equals(""))
@@ -74,6 +81,8 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
+        // city
         EditText cityInput = (EditText) findViewById(R.id.cityInput);
         String city = cityInput.getText().toString();
         if(city.equals(""))
@@ -84,6 +93,8 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
+        // country
         EditText countryInput = (EditText) findViewById(R.id.countryInput);
         String country = countryInput.getText().toString();
         if(country.equals(""))
@@ -94,6 +105,8 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
+        // email
         EditText emailInput = (EditText) findViewById(R.id.emailInput);
         String email = emailInput.getText().toString();
         if(email.equals(""))
@@ -112,6 +125,8 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
+        // username
         EditText usernameInput = (EditText) findViewById(R.id.usernameInput);
         String username = usernameInput.getText().toString();
         if(username.equals(""))
@@ -122,10 +137,11 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
+        // check if the username has been taken already
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Connection conn = null;
-
         try {
             String driver = "net.sourceforge.jtds.jdbc.Driver";
             Class.forName(driver);
@@ -136,7 +152,7 @@ public class SignUpActivity extends AppCompatActivity {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM [dbo].[account_details_table] WHERE [username] = \'"+ username +"\'");
 
-            if(rs.next()){
+            if (rs.next()){
                 Context context = getApplicationContext();
                 CharSequence text = "Username is already taken";
                 Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
@@ -147,15 +163,18 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (Exception e)
         {
             Context context = getApplicationContext();
+            Log.w("Error1", "" + e.getMessage());
             CharSequence text = "Failed to Connect";
             Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
             toast.show();
             return;
         }
 
+        // password
         EditText passwordInput = (EditText) findViewById(R.id.passwordInput);
         String password = passwordInput.getText().toString();
-        //Check if password meets the requirements
+
+        // check if password meets the requirements
         if(password.length() < 8 || !password.matches(".*\\d.*")
                 || password.equals(password.toLowerCase()) || password.equals(password.toUpperCase()))
         {
@@ -165,8 +184,10 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
-        EditText confirmpassword = (EditText) findViewById(R.id.confirmPasswordInput);
-        String cpassword = confirmpassword.getText().toString();
+
+        // confirm password
+        EditText confirmPassword = (EditText) findViewById(R.id.confirmPasswordInput);
+        String cpassword = confirmPassword.getText().toString();
         if(!cpassword.equals(password))
         {
             Context context = getApplicationContext();
@@ -175,6 +196,11 @@ public class SignUpActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
+        // hash the password
+        String salt = BCrypt.gensalt(10);
+        String hashedPassword = BCrypt.hashpw(password, salt);
+
         //connect to the database
         Connection conn2 = null;
         try {
@@ -186,25 +212,29 @@ public class SignUpActivity extends AppCompatActivity {
             Log.w("Connection","open");
             Statement stmt = conn2.createStatement();
 
-            //DateFormat format = new SimpleDateFormat("MM/DD/yyyy", Locale.ENGLISH);
-            //Date date = format.parse(bdate);
-
+            // write the user's data to the database
             int num = stmt.executeUpdate("INSERT INTO [dbo].[account_details_table] " +
                     "(username, password, fname, lname, minitial, address, city, country, email, birthday) " +
-                    "VALUES (\'" + username + "\', \'" + password + "\', \'" + fname + "\', \'" +
-                    lname + "\', \'" + minitial + "\', \'" + address + "\', \'" + city + "\', \'" +
+                    "VALUES (\'" + username + "\', \'" + hashedPassword + "\', \'" + fname + "\', \'" +
+                    lname + "\', \'" + mInitial + "\', \'" + address + "\', \'" + city + "\', \'" +
                     country + "\', \'" + email + "\', \'" + bdate + "\')");
             num = stmt.executeUpdate("INSERT INTO [dbo].[profile_table] " +
                     "(username) " +
-                    "VALUES (\'" + username + "\'");
+                    "VALUES (\'" + username + "\')");
+
+            // create a subjects table for the user
+            String sqlCreateTable = "CREATE TABLE dbo." + username + "_subject_table " +
+                                    "(Subject VARCHAR(50) NOT NULL PRIMARY KEY, Rating DECIMAL(2,1), Hours DECIMAL(4,1) NOT NULL)";
+            num = stmt.executeUpdate(sqlCreateTable);
             conn2.close();
 
+            // let the new user into the landing page
             Intent intent = new Intent(this, UserLanding.class);
             startActivity(intent);
         } catch (Exception e)
         {
             Context context = getApplicationContext();
-            Log.i("Error", "" + e.getMessage());
+            Log.w("Error2", "" + e.getMessage());
             CharSequence text = "Failed to Connect";
             Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
             toast.show();

@@ -69,10 +69,10 @@ public class LoginActivity extends AppCompatActivity {
             ResultSet rs = stmt.executeQuery(sqlQuery);
 
             while(rs.next()){
-                Log.w("database", "response received");
+
                 // if there's a response, check the password
+                Log.w("database", "response received");
                 String hashedPassword = rs.getString("password");
-                Log.w("hashed password", hashedPassword);
                 boolean success = BCrypt.checkpw(psw, hashedPassword);
 
                 conn.close();
