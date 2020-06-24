@@ -9,17 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity"/>
         <activity
             android:name=".MotivateActivity"
             android:label="@string/title_activity_motivate"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".UserLanding"></activity>
+            android:parentActivityName=".UserLanding"/>
         <activity
-            android:name=".HelpPage"
-            android:label="@string/title_activity_help_page"
-            android:parentActivityName=".UserLanding"
-            android:theme="@style/AppTheme.NoActionBar" />
             android:name=".HelpPage"
             android:label="@string/title_activity_help_page"
             android:parentActivityName=".UserLanding"
