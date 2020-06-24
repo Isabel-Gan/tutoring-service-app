@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,9 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         String usr = username.getText().toString();
         EditText password = (EditText) findViewById(R.id.password);
         String psw = password.getText().toString();
-        boolean loggedin = checkLogin(usr,psw);
+        boolean loggedIn = checkLogin(usr,psw);
 
-        if(loggedin){
+        if(loggedIn){
             Intent intent = new Intent(this, UserLanding.class);
             startActivity(intent);
         }
@@ -52,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
         Connection conn = null;
 
         try {
+
+            // obtain the hashed password from the database
             String driver = "net.sourceforge.jtds.jdbc.Driver";
             Class.forName(driver);
 
@@ -59,9 +63,15 @@ public class LoginActivity extends AppCompatActivity {
             conn = DriverManager.getConnection(connString);
             Log.w("Connection","open");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM [dbo].[account_details_table] WHERE [username] = \'"+ usr + "\' AND [password] = \'" + psw + "\'");
+            String sqlQuery = "SELECT username, password " +
+                                "FROM [dbo].[account_details_table] " +
+                                "WHERE [username] = \'"+ usr + "\'";
+            ResultSet rs = stmt.executeQuery(sqlQuery);
 
             while(rs.next()){
+
+                // if there's a response
+                String hashedPassword = rs.getString("password");
                 conn.close();
                 return true;
             }
