@@ -35,13 +35,13 @@ public class LoginActivity extends AppCompatActivity {
         boolean loggedIn = checkLogin(usr,psw);
 
         if(loggedIn){
+            // start the user landing activity
             Intent intent = new Intent(this, UserLanding.class);
             startActivity(intent);
         }
         else{
             Context context = getApplicationContext();
             CharSequence text = "Your username and/or password was wrong.";
-            //int duration = 2;
             Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
             toast.show();
         }
@@ -69,11 +69,18 @@ public class LoginActivity extends AppCompatActivity {
             ResultSet rs = stmt.executeQuery(sqlQuery);
 
             while(rs.next()){
-
                 // if there's a response, check the password
                 Log.w("database", "response received");
                 String hashedPassword = rs.getString("password");
                 boolean success = BCrypt.checkpw(psw, hashedPassword);
+
+                if (success) {
+                    // set the user's status to online
+                    String updateStatus = "UPDATE [dbo].[account_details_table] " +
+                                            "SET [logged_in] = 1 " +
+                                            "WHERE [username] = \'" + usr + "\'";
+                    stmt.executeUpdate(updateStatus);
+                }
 
                 conn.close();
                 return success;

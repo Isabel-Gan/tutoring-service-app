@@ -212,12 +212,12 @@ public class SignUpActivity extends AppCompatActivity {
             Log.w("Connection","open");
             Statement stmt = conn2.createStatement();
 
-            // write the user's data to the database
+            // write the user's data to the database, set their status to online
             int num = stmt.executeUpdate("INSERT INTO [dbo].[account_details_table] " +
-                    "(username, password, fname, lname, minitial, address, city, country, email, birthday) " +
+                    "(username, password, fname, lname, minitial, address, city, country, email, birthday, logged_in) " +
                     "VALUES (\'" + username + "\', \'" + hashedPassword + "\', \'" + fname + "\', \'" +
                     lname + "\', \'" + mInitial + "\', \'" + address + "\', \'" + city + "\', \'" +
-                    country + "\', \'" + email + "\', \'" + bdate + "\')");
+                    country + "\', \'" + email + "\', \'" + bdate + "\'," + 1 + ")");
             num = stmt.executeUpdate("INSERT INTO [dbo].[profile_table] " +
                     "(username) " +
                     "VALUES (\'" + username + "\')");
