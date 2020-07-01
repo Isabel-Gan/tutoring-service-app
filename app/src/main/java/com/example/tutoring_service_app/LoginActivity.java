@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         if(loggedIn){
             // start the user landing activity
             Intent intent = new Intent(this, UserLanding.class);
+            intent.putExtra("username", usr);
             startActivity(intent);
         }
         else{
