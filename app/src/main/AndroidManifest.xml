@@ -38,6 +38,10 @@
             android:label="@string/title_activity_signup"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".StudentListActivity"
+            android:label="List of Students"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
