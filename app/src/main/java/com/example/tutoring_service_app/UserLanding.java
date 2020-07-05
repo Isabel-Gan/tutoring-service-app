@@ -116,8 +116,8 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
 
     public void openLearn(View view) {
         // open learn activity
-        Toast toast = Toast.makeText(getApplicationContext(), "learn!!!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, LearnRequestActivity.class);
+        startActivity(intent);
     }
 
     public void openMotivate(View view) {
