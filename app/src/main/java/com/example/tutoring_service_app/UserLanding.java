@@ -58,7 +58,7 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.user_landing, menu);
+        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
         return true;
     }
 
@@ -117,6 +117,7 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
     public void openLearn(View view) {
         // open learn activity
         Intent intent = new Intent(this, LearnRequestActivity.class);
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 

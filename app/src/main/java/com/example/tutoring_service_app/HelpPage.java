@@ -91,7 +91,7 @@ public class HelpPage extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.help_page, menu);
+        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
         return true;
     }
 
@@ -126,8 +126,9 @@ public class HelpPage extends AppCompatActivity implements NavigationView.OnNavi
 
     public void openLearn() {
         // open learn activity
-        Toast toast = Toast.makeText(getApplicationContext(), "learn!!!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, LearnRequestActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
 
     public void openMotivate() {
@@ -137,7 +138,7 @@ public class HelpPage extends AppCompatActivity implements NavigationView.OnNavi
         startActivity(intent);
     }
 
-    public void openProfileHelp(View view) {
+    public void openProfile(View view) {
         // open profile page activity
         Intent intent = new Intent(this, ProfilePage.class);
         intent.putExtra("username", username);

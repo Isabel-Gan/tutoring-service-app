@@ -74,7 +74,7 @@ public class MotivateActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.motivate, menu);
+        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
         return true;
     }
 
@@ -140,9 +140,11 @@ public class MotivateActivity extends AppCompatActivity implements NavigationVie
 
     public void openLearn() {
         // open learn activity
-        Toast toast = Toast.makeText(getApplicationContext(), "learn!!!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, LearnRequestActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
+
 
     public void openHelp() {
         // open help activity

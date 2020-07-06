@@ -16,7 +16,7 @@
         <activity
             android:name=".LearnRequestActivity"
             android:label="@string/title_activity_learn_request"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MotivateActivity"

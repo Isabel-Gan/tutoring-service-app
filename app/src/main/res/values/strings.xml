@@ -51,8 +51,7 @@
     <string name="address">Address</string>
     <string name="city">City</string>
     <string name="country">Country</string>
-    <string name="title_activity_testinggg">testinggg</string>
-    <string name="title_activity_learn_request">LearnRequestActivity</string>
+    <string name="title_activity_learn_request">Learn</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 </resources>
