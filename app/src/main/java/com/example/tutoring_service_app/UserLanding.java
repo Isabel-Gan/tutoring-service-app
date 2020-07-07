@@ -110,8 +110,11 @@ public class UserLanding extends AppCompatActivity implements NavigationView.OnN
     // methods for opening separate activities
     public void openEducate(View view) {
         // open educate activity
-        Toast toast = Toast.makeText(getApplicationContext(), "educate!!!", Toast.LENGTH_SHORT);
-        toast.show();
+        //Toast toast = Toast.makeText(getApplicationContext(), "educate!!!", Toast.LENGTH_SHORT);
+        //toast.show();
+        Intent intent = new Intent(this, testEducateActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
 
     public void openLearn(View view) {

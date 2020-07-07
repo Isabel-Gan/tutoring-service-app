@@ -38,6 +38,15 @@
             android:label="@string/title_activity_user_landing"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".testEducateActivity"
+            android:label="Testing the Educate Activity"
+            android:parentActivityName=".UserLanding"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".testDelete"
+            android:label="test delete"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_signup"
             android:parentActivityName=".MainActivity" />
