@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class CurrentRequestFragment extends Fragment {
 
@@ -38,14 +35,21 @@ public class CurrentRequestFragment extends Fragment {
         return view;
     }
 
-    private ArrayList<StudentItem> getStudentList() {
-        ArrayList<StudentItem> students = new ArrayList<>();
+    private ArrayList<LearnRequestItem> getStudentList() {
+        ArrayList<LearnRequestItem> requests = new ArrayList<>();
 
-        StudentItem s = new StudentItem();
-        s.setName("Emmy");
-        s.setSubject("all subjects");
-        students.add(s);
+        LearnRequestItem r = new LearnRequestItem();
+        r.setSubject("bio");
+        r.setDescription("mitochondria is the powerhouse of what?");
+        r.setStatus(false);
+        requests.add(r);
 
-        return students;
+        r = new LearnRequestItem();
+        r.setSubject("cs");
+        r.setDescription("ew android studio");
+        r.setStatus(true);
+        requests.add(r);
+
+        return requests;
     }
 }

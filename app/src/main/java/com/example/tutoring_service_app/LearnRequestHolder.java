@@ -6,15 +6,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class StudentItemHolder extends RecyclerView.ViewHolder{
+public class LearnRequestHolder extends RecyclerView.ViewHolder{
 
-    TextView studentName;
     TextView studentSubject;
+    TextView description;
+    TextView status;
 
-    public StudentItemHolder(@NonNull View itemView) {
+    public LearnRequestHolder(@NonNull View itemView) {
         super(itemView);
 
-        this.studentName = itemView.findViewById(R.id.studentName);
         this.studentSubject = itemView.findViewById(R.id.studentSubject);
+        this.description = itemView.findViewById(R.id.description);
+        this.status = itemView.findViewById(R.id.status);
     }
 }

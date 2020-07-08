@@ -10,34 +10,40 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<StudentItemHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<LearnRequestHolder> {
 
     Context c;
-    ArrayList<StudentItem> studentItems;
+    ArrayList<LearnRequestItem> learnRequestItems;
 
-    public RecyclerViewAdapter(Context c, ArrayList<StudentItem> studentItems) {
+    public RecyclerViewAdapter(Context c, ArrayList<LearnRequestItem> learnRequestItems) {
         this.c = c;
-        this.studentItems = studentItems;
+        this.learnRequestItems = learnRequestItems;
     }
 
     @NonNull
     @Override
-    public StudentItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public LearnRequestHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //inflate the student items
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.learn_request_item, null);
 
-        return new StudentItemHolder(view);
+        return new LearnRequestHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StudentItemHolder holder, int i) {
-        holder.studentName.setText(studentItems.get(i).getName());
-        holder.studentSubject.setText(studentItems.get(i).getSubject());
+    public void onBindViewHolder(@NonNull LearnRequestHolder holder, int i) {
+        holder.studentSubject.setText(learnRequestItems.get(i).getSubject());
+        holder.description.setText("Description: "+ learnRequestItems.get(i).getDescription());
+        if (learnRequestItems.get(i).getStatus()) {
+            holder.status.setText("Status: Accepted");
+        }
+        else {
+            holder.status.setText("Status: Pending");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return studentItems.size();
+        return learnRequestItems.size();
     }
 }
