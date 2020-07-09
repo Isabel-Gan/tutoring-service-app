@@ -57,6 +57,10 @@ public class LearnRequestActivity extends AppCompatActivity implements Navigatio
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setNavigationViewListener();
 
+        // get username from intent
+        Bundle bundle = getIntent().getExtras();
+        username = bundle.getString("username");
+
         // setup the tabs
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
@@ -68,17 +72,29 @@ public class LearnRequestActivity extends AppCompatActivity implements Navigatio
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        // get username from intent
-        Bundle bundle = getIntent().getExtras();
-        username = bundle.getString("username");
     }
 
     // handles paging between the different tabs
     private void setupViewPager(ViewPager viewPager) {
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new LearnRequestFragment(), "Make a Request");
-        adapter.addFragment(new CurrentRequestFragment(), "Current Requests");
-        adapter.addFragment(new AcceptedRequestFragment(), "Accepted Requests");
+
+        // bundle that will hold the username and pass it to the fragments
+        Bundle bundle = new Bundle();
+        bundle.putString("username", username);
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
+        // create fragments
+        LearnRequestFragment lrf = new LearnRequestFragment();
+        lrf.setArguments(bundle);
+        CurrentRequestFragment crf = new CurrentRequestFragment();
+        crf.setArguments(bundle);
+        AcceptedRequestFragment arf = new AcceptedRequestFragment();
+        arf.setArguments(bundle);
+
+        // add fragments to viewpager
+        adapter.addFragment(lrf, "Make a Request");
+        adapter.addFragment(crf, "Current Requests");
+        adapter.addFragment(arf, "Accepted Requests");
         viewPager.setAdapter(adapter);
     }
 
