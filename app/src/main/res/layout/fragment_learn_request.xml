@@ -73,7 +73,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:text="Requested User"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <EditText
                 android:id="@+id/editUser"
@@ -83,7 +83,7 @@
                 android:layout_marginTop="15dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnAddUser"
@@ -92,7 +92,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:text="Add User"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <ListView
                 android:id="@+id/lstUsers"
@@ -101,7 +101,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:nestedScrollingEnabled="true"
-                android:visibility="gone">
+                android:visibility="visible">
 
             </ListView>
 
