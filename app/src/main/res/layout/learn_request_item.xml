@@ -33,11 +33,30 @@
 
         <TextView
             android:id="@+id/status"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/description"
             android:text="Status: Yeet"
             android:textColor="#FFF"></TextView>
+
+        <TextView
+            android:id="@+id/requestedUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status"
+            android:text="Requested User:"
+            android:textColor="#FFF"></TextView>
+
+        <ImageView
+            android:id="@+id/deleteImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/studentSubject"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            card_view:srcCompat= "@drawable/ic_baseline_delete_24" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

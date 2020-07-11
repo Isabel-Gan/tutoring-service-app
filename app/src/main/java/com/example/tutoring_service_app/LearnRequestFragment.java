@@ -109,11 +109,13 @@ public class LearnRequestFragment extends Fragment {
                     // if general request, make an entry with requested = NULL
                     if (genRequest) {
                         sqlInsert += "(\'" + username + "\', \'" + strSubject + "\', \'" + strDetails + "\', " + null + ")";
-                    }
+                    } else {
+                        // for each user in the requested users arraylist, add a row to the table
+                        for (String requestedUser : requestedUsers) {
+                            sqlInsert += "(\'" + username + "\', \'" + strSubject + "\', \'" + strDetails + "\', \'" + requestedUser + "\'), ";
+                        }
+                        sqlInsert = sqlInsert.substring(0, sqlInsert.length() - 2);
 
-                    // for each user in the requested users arraylist, add a row to the table
-                    for (String requestedUser : requestedUsers) {
-                        sqlInsert += ", (\'" + username + "\', \'" + strSubject + "\', \'" + strDetails + "\', \'" + requestedUser + "\')";
                     }
 
                     // connect to the database

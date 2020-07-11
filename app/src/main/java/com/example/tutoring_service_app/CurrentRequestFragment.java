@@ -48,41 +48,41 @@ public class CurrentRequestFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        //set up the adaptor with whatever's initially in the database
+        setUpAdapter();
+
         // set the onClick for the 'refresh button
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshRequestList(view);
-
-                //have to actually update view with new arr list
-                rAdapter = new RecyclerViewAdapter(getActivity(), requests);
-                recyclerView.setAdapter(rAdapter);
+                setUpAdapter();
             }
         });
-
-        Toast toast = Toast.makeText(view.getContext(), "Finished creating screen", Toast.LENGTH_SHORT);
-        toast.show();
 
         return view;
     }
 
-    private LearnRequestItem getRequestItem(String subject, String description, boolean status) {
-        LearnRequestItem r = new LearnRequestItem();
+    private void setUpAdapter() {
+        refreshRequestList();
 
-        r.setSubject(subject);
-        r.setDescription(description);
-        r.setStatus(status);
+        //have to actually update view with new arr list
+        rAdapter = new RecyclerViewAdapter(getActivity(), requests);
+        recyclerView.setAdapter(rAdapter);
 
-        return r;
+        //set the delete button listener
+        rAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                requests.remove(position);
+                rAdapter.notifyItemRemoved(position);
+
+                //TODO: actually remove from database
+            }
+        });
     }
 
-    private void refreshRequestList(View view) {
-
+    private void refreshRequestList() {
         requests = new ArrayList<>();
-
-        //test card
-        requests.add(getRequestItem("bio", "mitochondria is the powerhouse of what?", false));
-
 
         // connect to the database
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -104,14 +104,20 @@ public class CurrentRequestFragment extends Fragment {
             // execute the sql statement
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                Toast toast = Toast.makeText(view.getContext(), "Learn Request Submitted", Toast.LENGTH_SHORT);
-                toast.show();
+                LearnRequestItem newItem = new LearnRequestItem();
 
-                String subject=  rs.getString("subject");
-                String description = rs.getString("details");
+                newItem.setSubject(rs.getString("subject"));
+                newItem.setDescription(rs.getString("details"));
+                if (rs.getString("requested") != null) {
+                    newItem.setRequested("Requested User: " + rs.getString("requested"));
+                }
+                else {
+                    newItem.setRequested("General Request");
+                }
+                newItem.setStatus(false);
+                newItem.setImageResource(R.drawable.ic_baseline_delete_24);
 
-                LearnRequestItem r = getRequestItem(subject, description, false);
-                requests.add(r);
+                requests.add(newItem);
             }
 
             conn.close();
