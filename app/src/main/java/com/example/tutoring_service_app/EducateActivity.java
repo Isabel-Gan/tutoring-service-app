@@ -29,8 +29,6 @@ import java.sql.Statement;
 
 public class EducateActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    // TODO: there's a bug in opening this activity but idk where (run and check logcat)
-
     private String username;
 
     // for tab view
