@@ -1,5 +1,6 @@
 package com.example.tutoring_service_app;
 
+import android.app.AppComponentFactory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,7 +27,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class LearnRequestActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class EducateActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    // TODO: there's a bug in opening this activity but idk where (run and check logcat)
 
     private String username;
 
@@ -42,9 +46,9 @@ public class LearnRequestActivity extends AppCompatActivity implements Navigatio
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_learn_request);
+        setContentView(R.layout.activity_educate);
 
         // set up the toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -71,7 +75,6 @@ public class LearnRequestActivity extends AppCompatActivity implements Navigatio
         // setup the tab layout that uses the viewpager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
     }
 
     // handles paging between the different tabs
@@ -84,17 +87,14 @@ public class LearnRequestActivity extends AppCompatActivity implements Navigatio
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         // create fragments
-        LearnRequestFragment lrf = new LearnRequestFragment();
-        lrf.setArguments(bundle);
-        CurrentRequestFragment crf = new CurrentRequestFragment();
-        crf.setArguments(bundle);
-        AcceptedRequestFragment arf = new AcceptedRequestFragment();
-        arf.setArguments(bundle);
+        SpecificRequestsFragment srf = new SpecificRequestsFragment();
+        srf.setArguments(bundle);
+        GeneralRequestsFragment grf = new GeneralRequestsFragment();
+        grf.setArguments(bundle);
 
         // add fragments to viewpager
-        adapter.addFragment(lrf, "Make a Request");
-        adapter.addFragment(crf, "Current Requests");
-        adapter.addFragment(arf, "Accepted Requests");
+        adapter.addFragment(srf, "My Requests");
+        adapter.addFragment(grf, "General Requests");
         viewPager.setAdapter(adapter);
     }
 
@@ -108,8 +108,8 @@ public class LearnRequestActivity extends AppCompatActivity implements Navigatio
                 openHome();
                 break;
             }
-            case R.id.nav_educate: {
-                openEducate();
+            case R.id.nav_learn: {
+                openLearn();
                 break;
             }
             case R.id.nav_motivate: {
@@ -157,9 +157,9 @@ public class LearnRequestActivity extends AppCompatActivity implements Navigatio
         startActivity(intent);
     }
 
-    public void openEducate() {
-        // open educate activity
-        Intent intent = new Intent(this, EducateActivity.class);
+    public void openLearn() {
+        // open learn activity
+        Intent intent = new Intent(this, LearnRequestActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
     }
@@ -214,7 +214,6 @@ public class LearnRequestActivity extends AppCompatActivity implements Navigatio
             // exit, go back to the main page
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-
 
         } catch (Exception e) {
             Log.w("Error connection","" + e.getMessage());
