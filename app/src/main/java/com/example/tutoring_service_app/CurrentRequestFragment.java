@@ -62,6 +62,7 @@ public class CurrentRequestFragment extends Fragment {
         return view;
     }
 
+    //refreshes the request list and sets up the recycler view adapter
     private void setUpAdapter() {
         refreshRequestList();
 
@@ -73,14 +74,59 @@ public class CurrentRequestFragment extends Fragment {
         rAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
+                deleteFromDatabase(requests.get(position));
                 requests.remove(position);
                 rAdapter.notifyItemRemoved(position);
-
-                //TODO: actually remove from database
             }
         });
     }
 
+    //returns the description without the label
+    private String unwrappedDescription(String d) {
+        return d.substring("Description: ".length(), d.length());
+    }
+
+    //returns the requested user without the label
+    private String unwrappedRequestedUser(String s) {
+        return s.substring("Requested User: ".length(), s.length());
+    }
+
+    //deletes a certain learn request from the database table
+    private void deleteFromDatabase(LearnRequestItem request) {
+        // connect to the database
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Connection conn = null;
+
+        // try to delete from the table
+        try {
+            String driver = "net.sourceforge.jtds.jdbc.Driver";
+            Class.forName(driver);
+
+            String connString = "jdbc:jtds:sqlserver://tutoringservice.database.windows.net:1433/EduDatabase;user=schladies@tutoringservice;password=nohotwater3@;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+            conn = DriverManager.getConnection(connString);
+            Log.w("Connection","open");
+            Statement stmt = conn.createStatement();
+
+            //create the delete command (identifying a request by username, subject, description, and requested)
+            String sqlDelete = "DELETE FROM dbo.learn_requests_table WHERE [username] = \'" + username + "\' AND [subject] = \'" + request.getSubject() + "\' AND [details] = \'" + unwrappedDescription(request.getDescription()) + "\' ";
+            if (request.getRequested().equals("General Request")) {
+                sqlDelete += "AND [requested] IS NULL";
+            }
+            else {
+                sqlDelete += "AND [requested] = \'" + unwrappedRequestedUser(request.getRequested()) + "\'";
+            }
+
+            // execute the sql statement
+            stmt.executeUpdate(sqlDelete);
+            conn.close();
+
+        } catch (Exception e) {
+            Log.w("Error connection", "" + e.getMessage());
+        }
+    }
+
+    //refreshes the arraylist of requests by querying the database
     private void refreshRequestList() {
         requests = new ArrayList<>();
 
@@ -104,10 +150,12 @@ public class CurrentRequestFragment extends Fragment {
             // execute the sql statement
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
+                //create a new learn request item to add to the arraylist
                 LearnRequestItem newItem = new LearnRequestItem();
 
                 newItem.setSubject(rs.getString("subject"));
-                newItem.setDescription(rs.getString("details"));
+                //wrap the description and requested user with labels
+                newItem.setDescription("Description: " + rs.getString("details"));
                 if (rs.getString("requested") != null) {
                     newItem.setRequested("Requested User: " + rs.getString("requested"));
                 }

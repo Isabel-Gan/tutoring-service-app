@@ -44,7 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<LearnRequestHolder
     public void onBindViewHolder(@NonNull LearnRequestHolder holder, int i) {
         holder.deleteImage.setImageResource(learnRequestItems.get(i).getImageResource());
         holder.studentSubject.setText(learnRequestItems.get(i).getSubject());
-        holder.description.setText("Description: "+ learnRequestItems.get(i).getDescription());
+        holder.description.setText(learnRequestItems.get(i).getDescription());
         holder.requested.setText(learnRequestItems.get(i).getRequested());
         if (learnRequestItems.get(i).getStatus()) {
             holder.status.setText("Status: Accepted");
