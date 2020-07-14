@@ -31,9 +31,6 @@ public class SpecificRequestsFragment extends Fragment {
         // get the username from the intent
         username = getArguments().getString("username");
 
-        // testing acceptRequest
-        acceptRequest("6B6722F7-4FF4-4593-9D98-80A718BA371A");
-
         return view;
     }
 
@@ -44,9 +41,7 @@ public class SpecificRequestsFragment extends Fragment {
         StrictMode.setThreadPolicy(policy);
         Connection conn = null;
 
-        String sqlQuery = "hello";
-        String sqlDelete;
-        String sqlAdd;
+        String sqlQuery, sqlDelete, sqlAdd;
 
         try {
             String driver = "net.sourceforge.jtds.jdbc.Driver";
@@ -88,7 +83,7 @@ public class SpecificRequestsFragment extends Fragment {
             toast.show();
 
         } catch (Exception e) {
-            Log.w("Error connection","" + e.getMessage() + " " + sqlQuery);
+            Log.w("Error connection","" + e.getMessage());
         }
 
     }
