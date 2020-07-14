@@ -14,10 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".EducateActivity"
+            android:label="@string/menu_educate"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".LearnRequestActivity"
             android:label="@string/title_activity_learn_request"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="Login" />
         <activity
             android:name=".MotivateActivity"
             android:label="@string/title_activity_motivate"

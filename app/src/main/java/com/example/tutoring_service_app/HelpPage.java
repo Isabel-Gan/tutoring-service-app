@@ -120,8 +120,9 @@ public class HelpPage extends AppCompatActivity implements NavigationView.OnNavi
 
     public void openEducate() {
         // open educate activity
-        Toast toast = Toast.makeText(getApplicationContext(), "educate!!!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, EducateActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
 
     public void openLearn() {
@@ -167,6 +168,9 @@ public class HelpPage extends AppCompatActivity implements NavigationView.OnNavi
                     "SET [logged_in] = 0 " +
                     "WHERE [username] = \'" + username + "\'";
             stmt.executeUpdate(updateStatus);
+
+            // close connection
+            conn.close();
 
             // exit, go back to the main page
             Intent intent = new Intent(this, MainActivity.class);
