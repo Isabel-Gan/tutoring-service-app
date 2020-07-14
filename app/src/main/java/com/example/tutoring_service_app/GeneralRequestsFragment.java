@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 public class GeneralRequestsFragment extends Fragment {
 
-    // private String username;
+    private String username;
 
     @Nullable
     @Override
@@ -21,7 +21,7 @@ public class GeneralRequestsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_general_requests, container, false);
 
         // get the username from the intent
-        // username = getArguments().getString("username");
+        username = getArguments().getString("username");
 
         return view;
     }
