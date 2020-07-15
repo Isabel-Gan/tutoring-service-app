@@ -31,10 +31,15 @@ public class SpecificRequestsFragment extends Fragment {
         // get the username from the intent
         username = getArguments().getString("username");
 
+        // testing accept and reject request
+        changeRequest("7A03C78D-B5E8-4E4E-A57D-DFF5CDF2A18E", 0);
+        changeRequest("E5BBDE2B-C788-4BE6-B528-84EDB1384405", 1);
+
         return view;
     }
 
-    public void acceptRequest(String id) {
+    // 0 - reject, 1 - accept
+    public void changeRequest(String id, int action) {
 
         // connect to the database
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -73,13 +78,30 @@ public class SpecificRequestsFragment extends Fragment {
             String subject = rs.getString("subject");
             String details = rs.getString("details");
             String requester = rs.getString("username");
-            sqlAdd = "INSERT INTO [dbo].[accepted_requests_table] " +
+            switch (action) {
+                case 0:
+                    // add to the rejected requests table
+                    sqlAdd = "INSERT INTO [dbo].[rejected_requests_table] " +
+                            "(ID, username, subject, details, rejected) " +
+                            "VALUES (\'" + id + "\', \'" + requester + "\', \'" + subject + "\', \'" + details + "\', \'" + username + "\')";
+                    break;
+                case 1:
+                    // add to the accepted requests table
+                    sqlAdd = "INSERT INTO [dbo].[accepted_requests_table] " +
                             "(ID, username, subject, details, accepted) " +
                             "VALUES (\'" + id + "\', \'" + requester + "\', \'" + subject + "\', \'" + details + "\', \'" + username + "\')";
+                    break;
+                default:
+                    // shouldn't get here
+                    Toast toast = Toast.makeText(this.getContext(), "there's been a mistake :(", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+            }
             stmt.executeUpdate(sqlAdd);
 
             // communicate success
-            Toast toast = Toast.makeText(this.getContext(), "Request accepted!", Toast.LENGTH_SHORT);
+            String toastText = (action == 1) ? "Request accepted!" : "Request rejected!";
+            Toast toast = Toast.makeText(this.getContext(), toastText, Toast.LENGTH_SHORT);
             toast.show();
 
         } catch (Exception e) {
