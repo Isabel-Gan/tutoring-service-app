@@ -6,7 +6,13 @@ public class LearnRequestItem {
     private String description;
     private boolean status;
     private String requested;
-    private int imageSrc;
+    private int deleteImageSrc;
+    private int acceptImageSrc;
+    private String databaseId;
+
+    public String getID() {return databaseId;}
+
+    public void setID(String id) {databaseId = id;}
 
     public String getSubject() {
         return subject;
@@ -28,8 +34,12 @@ public class LearnRequestItem {
 
     public void setRequested(String r) {requested = r;}
 
-    public int getImageResource() { return imageSrc; }
+    public int getDeleteImageResource() { return deleteImageSrc; }
 
-    public void setImageResource(int s) { imageSrc = s; }
+    public void setDeleteImageResource(int s) { deleteImageSrc = s; }
+
+    public int getAcceptImageResource() { return acceptImageSrc; }
+
+    public void setAcceptImageResource(int s) { acceptImageSrc = s; }
 
 }

@@ -15,6 +15,7 @@ public class LearnRequestHolder extends RecyclerView.ViewHolder{
     TextView status;
     TextView requested;
     ImageView deleteImage;
+    ImageView acceptImage;
 
     public LearnRequestHolder(@NonNull View itemView, final RecyclerViewAdapter.OnItemClickListener listener) {
         super(itemView);
@@ -24,7 +25,9 @@ public class LearnRequestHolder extends RecyclerView.ViewHolder{
         this.status = itemView.findViewById(R.id.status);
         this.requested = itemView.findViewById(R.id.requestedUser);
         this.deleteImage = itemView.findViewById(R.id.deleteImage);
+        this.acceptImage = itemView.findViewById(R.id.acceptImage);
 
+        //set click listener for delete image
         deleteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,6 +35,18 @@ public class LearnRequestHolder extends RecyclerView.ViewHolder{
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onDeleteClick(position);
+                    }
+                }
+            }
+        });
+
+        acceptImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onAcceptClick(position);
                     }
                 }
             }

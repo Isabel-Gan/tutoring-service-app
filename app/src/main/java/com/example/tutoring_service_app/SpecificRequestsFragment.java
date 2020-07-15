@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,12 +21,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class CurrentRequestFragment extends Fragment {
+public class SpecificRequestsFragment extends Fragment {
 
     private String username;
     private Button refresh;
 
-    //recycler view with card views https://youtu.be/oq_xGMN0mRE
     private RecyclerView recyclerView;
     private RecyclerViewAdapter rAdapter;
 
@@ -36,7 +34,9 @@ public class CurrentRequestFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_current_request, container, false);
+
+        // inflate the view
+        View view = inflater.inflate(R.layout.fragment_specific_requests, container, false);
 
         // get the username from the intent
         username = getArguments().getString("username");
@@ -73,47 +73,19 @@ public class CurrentRequestFragment extends Fragment {
         //set the image button listeners
         rAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
-            //handle delete clicks
             public void onDeleteClick(int position) {
-                deleteFromDatabase(requests.get(position));
+                //TODO: unsure what I want to happen here
                 requests.remove(position);
                 rAdapter.notifyItemRemoved(position);
             }
 
             @Override
-            //don't do anything for accept clicks
             public void onAcceptClick(int position) {
-                return;
+                acceptRequest(requests.get(position).getID());
+                requests.remove(position);
+                rAdapter.notifyItemRemoved(position);
             }
         });
-    }
-
-    //deletes a certain learn request from the database table
-    private void deleteFromDatabase(LearnRequestItem request) {
-        // connect to the database
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        Connection conn = null;
-
-        // try to delete from the table
-        try {
-            String driver = "net.sourceforge.jtds.jdbc.Driver";
-            Class.forName(driver);
-
-            String connString = "jdbc:jtds:sqlserver://tutoringservice.database.windows.net:1433/EduDatabase;user=schladies@tutoringservice;password=nohotwater3@;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
-            conn = DriverManager.getConnection(connString);
-            Log.w("Connection","open");
-            Statement stmt = conn.createStatement();
-
-            String sqlDelete =  "DELETE FROM dbo.learn_requests_table WHERE [ID] = \'" + request.getID() + "\'";
-
-            // execute the sql statement
-            stmt.executeUpdate(sqlDelete);
-            conn.close();
-
-        } catch (Exception e) {
-            Log.w("Error connection", "" + e.getMessage());
-        }
     }
 
     //refreshes the arraylist of requests by querying the database
@@ -135,7 +107,7 @@ public class CurrentRequestFragment extends Fragment {
             Log.w("Connection","open");
             Statement stmt = conn.createStatement();
 
-            String query = "SELECT * FROM dbo.learn_requests_table WHERE [username] = \'" + username + "\'";
+            String query = "SELECT * FROM dbo.learn_requests_table WHERE [requested] IS NOT NULL AND [requested] = \'" + username + "\'";
 
             // execute the sql statement
             ResultSet rs = stmt.executeQuery(query);
@@ -146,15 +118,10 @@ public class CurrentRequestFragment extends Fragment {
                 newItem.setSubject(rs.getString("subject"));
                 //wrap the description and requested user with labels
                 newItem.setDescription("Description: " + rs.getString("details"));
-                if (rs.getString("requested") != null) {
-                    newItem.setRequested("Requested User: " + rs.getString("requested"));
-                }
-                else {
-                    newItem.setRequested("General Request");
-                }
+                newItem.setRequested("Requested by: " + rs.getString("username"));
                 newItem.setStatus(false);
                 newItem.setDeleteImageResource(R.drawable.ic_baseline_delete_24);
-                newItem.setAcceptImageResource(0); //shouldn't have an accept button
+                newItem.setAcceptImageResource(R.drawable.ic_baseline_check_24); //shouldn't have an accept button
                 newItem.setID(rs.getString("ID"));
 
                 requests.add(newItem);
@@ -164,6 +131,61 @@ public class CurrentRequestFragment extends Fragment {
 
         } catch (Exception e) {
             Log.w("Error connection", "" + e.getMessage());
+        }
+
+    }
+
+    public void acceptRequest(String id) {
+
+        // connect to the database
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Connection conn = null;
+
+        String sqlQuery, sqlDelete, sqlAdd;
+
+        try {
+            String driver = "net.sourceforge.jtds.jdbc.Driver";
+            Class.forName(driver);
+
+            String connString = "jdbc:jtds:sqlserver://tutoringservice.database.windows.net:1433/EduDatabase;user=schladies@tutoringservice;password=nohotwater3@;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+            conn = DriverManager.getConnection(connString);
+            Log.w("Connection","open");
+            Statement stmt = conn.createStatement();
+            sqlQuery = "SELECT username, subject, details, requested " +
+                    "FROM dbo.learn_requests_table " +
+                    "WHERE [ID] = \'"+ id + "\'";
+            ResultSet rs = stmt.executeQuery(sqlQuery);
+            if (!rs.next()) {
+                Toast toast = Toast.makeText(this.getContext(), "there's been a mistake :(", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+
+            // check type of request
+
+            String requested = rs.getString("requested");
+            if (requested != null) {
+                // delete from the requests table
+                sqlDelete = "DELETE FROM [dbo].[learn_requests_table] WHERE ID = \'" + id + "\'";
+                stmt.executeUpdate(sqlDelete);
+            }
+
+            // insert into the accepted requests table
+            String subject = rs.getString("subject");
+            String details = rs.getString("details");
+            String requester = rs.getString("username");
+            sqlAdd = "INSERT INTO [dbo].[accepted_requests_table] " +
+                            "(ID, username, subject, details, accepted) " +
+                            "VALUES (\'" + id + "\', \'" + requester + "\', \'" + subject + "\', \'" + details + "\', \'" + username + "\')";
+            stmt.executeUpdate(sqlAdd);
+
+            // communicate success
+            Toast toast = Toast.makeText(this.getContext(), "Request accepted!", Toast.LENGTH_SHORT);
+            toast.show();
+
+        } catch (Exception e) {
+            Log.w("Error connection","" + e.getMessage());
         }
 
     }
