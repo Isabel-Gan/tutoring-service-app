@@ -70,25 +70,22 @@ public class CurrentRequestFragment extends Fragment {
         rAdapter = new RecyclerViewAdapter(getActivity(), requests);
         recyclerView.setAdapter(rAdapter);
 
-        //set the delete button listener
+        //set the image button listeners
         rAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
+            //handle delete clicks
             public void onDeleteClick(int position) {
                 deleteFromDatabase(requests.get(position));
                 requests.remove(position);
                 rAdapter.notifyItemRemoved(position);
             }
+
+            @Override
+            //don't do anything for accept clicks
+            public void onAcceptClick(int position) {
+                return;
+            }
         });
-    }
-
-    //returns the description without the label
-    private String unwrappedDescription(String d) {
-        return d.substring("Description: ".length(), d.length());
-    }
-
-    //returns the requested user without the label
-    private String unwrappedRequestedUser(String s) {
-        return s.substring("Requested User: ".length(), s.length());
     }
 
     //deletes a certain learn request from the database table
@@ -108,14 +105,7 @@ public class CurrentRequestFragment extends Fragment {
             Log.w("Connection","open");
             Statement stmt = conn.createStatement();
 
-            //create the delete command (identifying a request by username, subject, description, and requested)
-            String sqlDelete = "DELETE FROM dbo.learn_requests_table WHERE [username] = \'" + username + "\' AND [subject] = \'" + request.getSubject() + "\' AND [details] = \'" + unwrappedDescription(request.getDescription()) + "\' ";
-            if (request.getRequested().equals("General Request")) {
-                sqlDelete += "AND [requested] IS NULL";
-            }
-            else {
-                sqlDelete += "AND [requested] = \'" + unwrappedRequestedUser(request.getRequested()) + "\'";
-            }
+            String sqlDelete =  "DELETE FROM dbo.learn_requests_table WHERE [ID] = \'" + request.getID() + "\'";
 
             // execute the sql statement
             stmt.executeUpdate(sqlDelete);
@@ -163,7 +153,9 @@ public class CurrentRequestFragment extends Fragment {
                     newItem.setRequested("General Request");
                 }
                 newItem.setStatus(false);
-                newItem.setImageResource(R.drawable.ic_baseline_delete_24);
+                newItem.setDeleteImageResource(R.drawable.ic_baseline_delete_24);
+                newItem.setAcceptImageResource(0); //shouldn't have an accept button
+                newItem.setID(rs.getString("ID"));
 
                 requests.add(newItem);
             }

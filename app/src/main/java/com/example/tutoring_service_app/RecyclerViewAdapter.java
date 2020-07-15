@@ -19,6 +19,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<LearnRequestHolder
 
     public interface OnItemClickListener {
         void onDeleteClick(int position);
+        void onAcceptClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -42,10 +43,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<LearnRequestHolder
 
     @Override
     public void onBindViewHolder(@NonNull LearnRequestHolder holder, int i) {
-        holder.deleteImage.setImageResource(learnRequestItems.get(i).getImageResource());
+        holder.deleteImage.setImageResource(learnRequestItems.get(i).getDeleteImageResource());
+        holder.acceptImage.setImageResource(learnRequestItems.get(i).getAcceptImageResource());
         holder.studentSubject.setText(learnRequestItems.get(i).getSubject());
         holder.description.setText(learnRequestItems.get(i).getDescription());
         holder.requested.setText(learnRequestItems.get(i).getRequested());
+
         if (learnRequestItems.get(i).getStatus()) {
             holder.status.setText("Status: Accepted");
         }

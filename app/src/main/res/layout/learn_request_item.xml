@@ -57,6 +57,18 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             card_view:srcCompat= "@drawable/ic_baseline_delete_24" />
+
+        <ImageView
+            android:id="@+id/acceptImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/studentSubject"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@+id/deleteImage"
+            android:layout_toLeftOf="@+id/deleteImage"
+            card_view:srcCompat="@drawable/ic_baseline_check_24" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
