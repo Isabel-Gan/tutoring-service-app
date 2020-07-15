@@ -200,7 +200,7 @@ public class EducateActivity extends AppCompatActivity implements NavigationView
             Log.w("Connection","open");
             Statement stmt = conn.createStatement();
 
-            // set the user's status to online
+            // set the user's status to offline
             String updateStatus = "UPDATE [dbo].[account_details_table] " +
                     "SET [logged_in] = 0 " +
                     "WHERE [username] = \'" + username + "\'";
