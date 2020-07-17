@@ -74,14 +74,14 @@ public class SpecificRequestsFragment extends Fragment {
         rAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
-                //TODO: unsure what I want to happen here
+                changeRequest(requests.get(position).getID(), 0);
                 requests.remove(position);
                 rAdapter.notifyItemRemoved(position);
             }
 
             @Override
             public void onAcceptClick(int position) {
-                acceptRequest(requests.get(position).getID());
+                changeRequest(requests.get(position).getID(), 1);
                 requests.remove(position);
                 rAdapter.notifyItemRemoved(position);
             }
@@ -121,7 +121,7 @@ public class SpecificRequestsFragment extends Fragment {
                 newItem.setRequested("Requested by: " + rs.getString("username"));
                 newItem.setStatus(false);
                 newItem.setDeleteImageResource(R.drawable.ic_baseline_delete_24);
-                newItem.setAcceptImageResource(R.drawable.ic_baseline_check_24); //shouldn't have an accept button
+                newItem.setAcceptImageResource(R.drawable.ic_baseline_check_24);
                 newItem.setID(rs.getString("ID"));
 
                 requests.add(newItem);
@@ -135,7 +135,8 @@ public class SpecificRequestsFragment extends Fragment {
 
     }
 
-    public void acceptRequest(String id) {
+    // 0 - reject, 1 - accept
+    public void changeRequest(String id, int action) {
 
         // connect to the database
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -156,32 +157,50 @@ public class SpecificRequestsFragment extends Fragment {
                     "FROM dbo.learn_requests_table " +
                     "WHERE [ID] = \'"+ id + "\'";
             ResultSet rs = stmt.executeQuery(sqlQuery);
+
             if (!rs.next()) {
                 Toast toast = Toast.makeText(this.getContext(), "there's been a mistake :(", Toast.LENGTH_SHORT);
                 toast.show();
                 return;
             }
 
-            // check type of request
-
-            String requested = rs.getString("requested");
-            if (requested != null) {
-                // delete from the requests table
-                sqlDelete = "DELETE FROM [dbo].[learn_requests_table] WHERE ID = \'" + id + "\'";
-                stmt.executeUpdate(sqlDelete);
-            }
-
             // insert into the accepted requests table
             String subject = rs.getString("subject");
             String details = rs.getString("details");
             String requester = rs.getString("username");
-            sqlAdd = "INSERT INTO [dbo].[accepted_requests_table] " +
+
+            // check type of request
+            String requested = rs.getString("requested");
+            if (requested != null) {
+                // delete from the requests table (but only after getting subject/details/etc out of rs)
+                sqlDelete = "DELETE FROM [dbo].[learn_requests_table] WHERE ID = \'" + id + "\'";
+                stmt.executeUpdate(sqlDelete);
+            }
+
+            switch (action) {
+                case 0:
+                    // add to the rejected requests table
+                    sqlAdd = "INSERT INTO [dbo].[rejected_requests_table] " +
+                            "(ID, username, subject, details, rejected) " +
+                            "VALUES (\'" + id + "\', \'" + requester + "\', \'" + subject + "\', \'" + details + "\', \'" + username + "\')";
+                    break;
+                case 1:
+                    // add to the accepted requests table
+                    sqlAdd = "INSERT INTO [dbo].[accepted_requests_table] " +
                             "(ID, username, subject, details, accepted) " +
                             "VALUES (\'" + id + "\', \'" + requester + "\', \'" + subject + "\', \'" + details + "\', \'" + username + "\')";
+                    break;
+                default:
+                    // shouldn't get here
+                    Toast toast = Toast.makeText(this.getContext(), "there's been a mistake :(", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+            }
             stmt.executeUpdate(sqlAdd);
 
             // communicate success
-            Toast toast = Toast.makeText(this.getContext(), "Request accepted!", Toast.LENGTH_SHORT);
+            String toastText = (action == 1) ? "Request accepted!" : "Request rejected!";
+            Toast toast = Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT);
             toast.show();
 
         } catch (Exception e) {
