@@ -48,6 +48,9 @@
             android:label="@string/title_activity_signup"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".RatingActivity"
+            android:label=""/>
+        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
