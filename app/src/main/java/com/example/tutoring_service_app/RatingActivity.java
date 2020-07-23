@@ -14,7 +14,7 @@ public class RatingActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Button submitBtn;
 
-    //TODO: need to get username of tutor being reviewed
+    //TODO: need to get username and subject of tutor being reviewed
     private String username;
 
     @Override
@@ -43,6 +43,8 @@ public class RatingActivity extends AppCompatActivity {
         Float rating = ratingBar.getRating();
 
         //TODO: update database
+        //table to update was created with "CREATE TABLE dbo." + username + "_subject_table " +
+        //                                    "(Subject VARCHAR(50) NOT NULL PRIMARY KEY, Rating DECIMAL(2,1), Hours DECIMAL(4,1) NOT NULL)"
 
         Toast toast = Toast.makeText(this, "thanks!", Toast.LENGTH_SHORT);
         toast.show();
