@@ -48,6 +48,10 @@
             android:label="@string/title_activity_signup"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".VideoCallActivity"
+            android:label="@string/title_activity_video_call"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
