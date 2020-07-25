@@ -27,6 +27,7 @@ public class VideoCallActivity extends AppCompatActivity {
     private static final int PERMISSION_REQ_ID = 22;
 
     private String username;
+    private String channel;
 
     // Permission WRITE_EXTERNAL_STORAGE is not mandatory
     // for Agora RTC SDK, just in case if you wanna save
@@ -192,6 +193,9 @@ public class VideoCallActivity extends AppCompatActivity {
         // get the username from the intent
         Bundle bundle = getIntent().getExtras();
         username = bundle.getString("username");
+        channel = bundle.getString("channel");
+        Toast toast = Toast.makeText(this, "joining channel " + channel, Toast.LENGTH_SHORT);
+        toast.show();
 
         // Ask for permissions at runtime.
         // This is just an example set of permissions. Other permissions
@@ -307,7 +311,7 @@ public class VideoCallActivity extends AppCompatActivity {
         // same channel successfully using the same app id.
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
-        mRtcEngine.joinChannel(null, "demoChannel1", "Extra Optional Data", 0);
+        mRtcEngine.joinChannel(null, channel, "Extra Optional Data", 0);
     }
 
     @Override
