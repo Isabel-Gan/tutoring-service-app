@@ -108,13 +108,16 @@ public class LearnRequestFragment extends Fragment {
 
                     // if general request, make an entry with requested = NULL
                     if (genRequest) {
-                        sqlInsert += "(\'" + username + "\', \'" + strSubject + "\', \'" + strDetails + "\', " + null + ")";
+                        sqlInsert += "(\'" + username + "\', \'" + strSubject + "\', \'" + strDetails + "\', " + null + "), ";
                     }
 
                     // for each user in the requested users arraylist, add a row to the table
                     for (String requestedUser : requestedUsers) {
-                        sqlInsert += ", (\'" + username + "\', \'" + strSubject + "\', \'" + strDetails + "\', \'" + requestedUser + "\')";
+                        sqlInsert += "(\'" + username + "\', \'" + strSubject + "\', \'" + strDetails + "\', \'" + requestedUser + "\'), ";
                     }
+
+                    // get rid of the last comma and space
+                    sqlInsert = sqlInsert.substring(0, sqlInsert.length() - 2);
 
                     // connect to the database
                     StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

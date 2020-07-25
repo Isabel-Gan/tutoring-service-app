@@ -1,5 +1,6 @@
 package com.example.tutoring_service_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class SpecificRequestsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // inflate the view
-        View view = inflater.inflate(R.layout.fragment_specific_requests, container, false);
+        final View view = inflater.inflate(R.layout.fragment_specific_requests, container, false);
 
         // get the username from the intent
         username = getArguments().getString("username");
@@ -49,13 +50,13 @@ public class SpecificRequestsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //set up the adaptor with whatever's initially in the database
-        setUpAdapter();
+        setUpAdapter(view);
 
         // set the onClick for the 'refresh button
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUpAdapter();
+                setUpAdapter(view);
             }
         });
 
@@ -63,7 +64,7 @@ public class SpecificRequestsFragment extends Fragment {
     }
 
     //refreshes the request list and sets up the recycler view adapter
-    private void setUpAdapter() {
+    private void setUpAdapter(final View view) {
         refreshRequestList();
 
         //have to actually update view with new arr list
@@ -81,9 +82,17 @@ public class SpecificRequestsFragment extends Fragment {
 
             @Override
             public void onAcceptClick(int position) {
+
+                // accept the request in the database
                 changeRequest(requests.get(position).getID(), 1);
                 requests.remove(position);
                 rAdapter.notifyItemRemoved(position);
+
+                // go to the video call
+                Intent intent = new Intent(view.getContext(), VideoCallActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("channel", username);
+                startActivity(intent);
             }
         });
     }
@@ -208,4 +217,5 @@ public class SpecificRequestsFragment extends Fragment {
         }
 
     }
+
 }
