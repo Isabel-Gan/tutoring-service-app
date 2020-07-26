@@ -77,22 +77,23 @@ public class AcceptedRequestFragment extends Fragment {
             public void onDeleteClick(int position) {
                 //TODO: maybe do something different here? at least notify the educator somehow
                 //changeRequest(requests.get(position).getID(), 0);
-                requests.remove(position);
-                rAdapter.notifyItemRemoved(position);
+                //requests.remove(position);
+                //rAdapter.notifyItemRemoved(position);
             }
 
             @Override
             public void onAcceptClick(int position) {
-                requests.remove(position);
-                rAdapter.notifyItemRemoved(position);
-
                 // go to the video call
-                Intent intent = new Intent(view.getContext(), VideoCallActivity.class);
+                Intent intent = new Intent(view.getContext(), RatingActivity.class); //VideoCallActivity
                 intent.putExtra("username", username);
                 String accepted = requests.get(position).getRequested().substring(13);
                 intent.putExtra("channel", accepted);
                 String subject = requests.get(position).getSubject();
                 intent.putExtra("subject", subject);
+
+                //remove that request item from the arrayList and display
+                requests.remove(position);
+                rAdapter.notifyItemRemoved(position);
 
                 startActivity(intent);
             }

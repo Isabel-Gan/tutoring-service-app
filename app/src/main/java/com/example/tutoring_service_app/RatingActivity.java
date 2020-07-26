@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class RatingActivity extends AppCompatActivity {
@@ -52,7 +53,7 @@ public class RatingActivity extends AppCompatActivity {
     private void submitRating() {
         Float rating = ratingBar.getRating();
 
-        updateDatabaseRating(rating);
+        updateDatabaseRating(rating, (float)1.0); //TODO: fix temp value for hours
 
         //switch back to main screen
         Intent intent = new Intent(this, UserLanding.class);
@@ -60,12 +61,9 @@ public class RatingActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void updateDatabaseRating(Float rating) {
-        String sqlInsert = "INSERT INTO dbo." + tutorUsername + "_subject_table (Subject, Rating, Hours, Number) VALUES ";
-        //TODO: fix temp values
-        String number = "1";
-        int hours = 1;
-        sqlInsert += "(\'" + subject + "\', CAST(" + rating + " AS decimal(2,1)), CAST(" + hours + " AS decimal(4, 1)), \'" + number + "\')";
+    private void updateDatabaseRating(Float rating, Float hours) {
+        String sqlQuery = "SELECT * FROM [dbo].[" + tutorUsername + "_subject_table] " +
+                "WHERE [Subject] = \'"+ subject + "\'";
 
         // connect to the database
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -82,8 +80,36 @@ public class RatingActivity extends AppCompatActivity {
             Log.w("Connection","open");
             Statement stmt = conn.createStatement();
 
-            // execute the sql statement
-            stmt.executeUpdate(sqlInsert);
+            ResultSet rs = stmt.executeQuery(sqlQuery);
+
+            //check if that subject already exists in a row in the table
+            if (!rs.next()) {
+                String sqlInsert = "INSERT INTO dbo." + tutorUsername + "_subject_table (Subject, Rating, Hours, Number) VALUES ";
+                sqlInsert += "(\'" + subject + "\', CAST(" + rating + " AS decimal(2,1)), CAST(" + hours + " AS decimal(4, 1)), \'1\')";
+
+                // execute the sql statement
+                stmt.executeUpdate(sqlInsert);
+            }
+            else {
+                //get old data from existing row
+                String oldNum = rs.getString("Number").trim();
+                Float oldHours = (rs.getBigDecimal("Hours")).floatValue();
+                Float oldRating = (rs.getBigDecimal("Rating")).floatValue();
+
+                //update old data
+                int newNum = Integer.parseInt(oldNum) + 1;
+                Float newHours = oldHours + hours;
+                Float newRating = oldRating + ((rating - oldRating) / newNum);
+
+                String sqlUpdate = "UPDATE [dbo].[" + tutorUsername + "_subject_table] " +
+                        "SET [Rating] = CAST(" + newRating + " AS decimal(2,1)), " +
+                        "[Hours] = CAST(" + newHours + " AS decimal(4, 1)), " +
+                        "[Number] = \'" + newNum + "\' " +
+                        "WHERE [Subject] = \'" + subject + "\'";
+
+                //execute the sql update statement
+                stmt.executeUpdate(sqlUpdate);
+            }
             conn.close();
 
             // success!
@@ -91,7 +117,7 @@ public class RatingActivity extends AppCompatActivity {
             toast.show();
 
         } catch (Exception e) {
-            Log.w("Error connection", "" + e.getMessage() + " " + sqlInsert);
+            Log.w("Error connection", "" + e.getMessage());
         }
     }
 }
