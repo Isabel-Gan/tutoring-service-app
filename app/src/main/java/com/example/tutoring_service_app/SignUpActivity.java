@@ -224,7 +224,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             // create a subjects table for the user
             String sqlCreateTable = "CREATE TABLE dbo." + username + "_subject_table " +
-                                    "(Subject VARCHAR(50) NOT NULL PRIMARY KEY, Rating DECIMAL(2,1), Hours DECIMAL(4,1) NOT NULL)";
+                                    "(Subject VARCHAR(50) NOT NULL PRIMARY KEY, Rating DECIMAL(2,1), Hours DECIMAL(4,1) NOT NULL, Number NCHAR(10) NOT NULL)";
             num = stmt.executeUpdate(sqlCreateTable);
             conn2.close();
 
