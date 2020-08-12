@@ -92,6 +92,7 @@ public class SpecificRequestsFragment extends Fragment {
                 Intent intent = new Intent(view.getContext(), VideoCallActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("channel", username);
+                intent.putExtra("student", false);
                 startActivity(intent);
             }
         });

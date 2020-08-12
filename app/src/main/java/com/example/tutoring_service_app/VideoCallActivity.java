@@ -1,6 +1,7 @@
 package com.example.tutoring_service_app;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -26,8 +29,15 @@ public class VideoCallActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQ_ID = 22;
 
+    // data for app
     private String username;
     private String channel;
+
+    private boolean student;
+    private String subject;
+
+    private Date startingTime;
+    private Date endingTime;
 
     // Permission WRITE_EXTERNAL_STORAGE is not mandatory
     // for Agora RTC SDK, just in case if you wanna save
@@ -197,6 +207,12 @@ public class VideoCallActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "joining channel " + channel, Toast.LENGTH_SHORT);
         toast.show();
 
+        // get app data from the intent
+        student = bundle.getBoolean("student");
+        if (student) {
+            subject = bundle.getString("subject");
+        }
+
         // Ask for permissions at runtime.
         // This is just an example set of permissions. Other permissions
         // may be needed, and please refer to our online documents.
@@ -312,6 +328,11 @@ public class VideoCallActivity extends AppCompatActivity {
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
         mRtcEngine.joinChannel(null, channel, "Extra Optional Data", 0);
+
+        // set starting time
+        if (student) {
+            startingTime = new Date();
+        }
     }
 
     @Override
@@ -369,6 +390,28 @@ public class VideoCallActivity extends AppCompatActivity {
         removeLocalVideo();
         removeRemoteVideo();
         leaveChannel();
+
+        // go to new activity
+        if (student) {
+            endingTime = new Date();
+
+            // calculate difference
+            long diffInMilli = Math.abs(endingTime.getTime() - startingTime.getTime());
+            float diff = TimeUnit.HOURS.convert(diffInMilli, TimeUnit.MILLISECONDS);
+
+            // open new activity
+            Intent intent = new Intent(this, RatingActivity.class);
+            intent.putExtra("username", username);
+            intent.putExtra("channel", channel);
+            intent.putExtra("subject", subject);
+            intent.putExtra("duration", diff);
+            startActivity(intent);
+        } else {
+            // open user landing activity
+            Intent intent = new Intent(this, UserLanding.class);
+            intent.putExtra("username", username);
+            startActivity(intent);
+        }
     }
 
     private void removeLocalVideo() {

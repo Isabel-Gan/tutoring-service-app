@@ -24,7 +24,7 @@ public class RatingActivity extends AppCompatActivity {
     private String username;
     private String tutorUsername;
     private String subject;
-    //TODO:get hours on call
+    private float hours;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class RatingActivity extends AppCompatActivity {
         username = bundle.getString("username");
         tutorUsername = bundle.getString("channel");
         subject = bundle.getString("subject");
+        hours = bundle.getFloat("duration");
 
         //get views
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
@@ -53,7 +54,7 @@ public class RatingActivity extends AppCompatActivity {
     private void submitRating() {
         Float rating = ratingBar.getRating();
 
-        updateDatabaseRating(rating, (float)1.0); //TODO: fix temp value for hours
+        updateDatabaseRating(rating, hours);
 
         //switch back to main screen
         Intent intent = new Intent(this, UserLanding.class);

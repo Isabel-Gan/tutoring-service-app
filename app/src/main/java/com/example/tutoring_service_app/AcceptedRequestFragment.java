@@ -3,6 +3,7 @@ package com.example.tutoring_service_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.telecom.InCallService;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,12 +85,13 @@ public class AcceptedRequestFragment extends Fragment {
             @Override
             public void onAcceptClick(int position) {
                 // go to the video call
-                Intent intent = new Intent(view.getContext(), RatingActivity.class); //VideoCallActivity
+                Intent intent = new Intent(view.getContext(), VideoCallActivity.class);
                 intent.putExtra("username", username);
                 String accepted = requests.get(position).getRequested().substring(13);
                 intent.putExtra("channel", accepted);
                 String subject = requests.get(position).getSubject();
                 intent.putExtra("subject", subject);
+                intent.putExtra("student", true);
 
                 //remove that request item from the arrayList and display
                 requests.remove(position);
